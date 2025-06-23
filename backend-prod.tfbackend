@@ -3,6 +3,6 @@ terraform {
     bucket="bucket-terraform-github-actions-project"
     key="envs/prod/terraform.tfstate"
     region= "us-east-1"
-    dynamodb_table = "terrraform-lock"
+    dynamodb_table = "terraform-locks"
   }
 }
