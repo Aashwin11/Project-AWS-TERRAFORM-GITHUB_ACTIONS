@@ -5,6 +5,8 @@
 # Crash logs
 crash.log
 
+aws/
+
 # Terraform CLI configuration file
 .terraformrc
 terraform.rc
