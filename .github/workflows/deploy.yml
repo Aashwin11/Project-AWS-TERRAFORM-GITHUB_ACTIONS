@@ -45,7 +45,14 @@ jobs:
 
             - name: Terraform Initialize
               run: |
-                terraform init
+                if [ "${{github.event.inputs.environment}}"=="dev"]; then
+                    terraform init -backend-config=backend-dev.tf
+                elif [ "${{github.event.inputs.environment}}"=="prod"]; then
+                    terraform init -backend-config=backend-prod.tf
+                else
+                    echo "Invalid ENV"
+                    exit 1
+                fi
             - name: Terraform Choose Workspace
               run: |
                 terraform workspace list | grep -q "${{ github.event.inputs.environment }}" \
