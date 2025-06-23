@@ -46,11 +46,11 @@ jobs:
             - name: Terraform Initialize
               run: |
                 terraform init
-            - name: terraform choose workspace
+            - name: Terraform Choose Workspace
               run: |
-                terraform workspace list | grep -q "${{github.event.inputs.environment}}" \
-                && terraform workspace select ${{github.event.inputs.environment}}" \
-                || terraform workspace new ${{github.event.inputs.environment}}"
+                terraform workspace list | grep -q "${{ github.event.inputs.environment }}" \
+                && terraform workspace select "${{ github.event.inputs.environment }}" \
+                || terraform workspace new "${{ github.event.inputs.environment }}"
 
             - name: Terraform Plan stage
               run: |
