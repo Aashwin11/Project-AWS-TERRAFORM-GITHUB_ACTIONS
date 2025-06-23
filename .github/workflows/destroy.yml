@@ -40,9 +40,9 @@ jobs:
      
       - name: Terraform Initialize
         run: |
-                if [ "${{github.event.inputs.environment}}"=="dev"]; then
+                if [ "${{github.event.inputs.environment}}"=="dev" ]; then
                     terraform init -backend-config=backend-dev.tf
-                elif [ "${{github.event.inputs.environment}}"=="prod"]; then
+                elif [ "${{github.event.inputs.environment}}"=="prod" ]; then
                     terraform init -backend-config=backend-prod.tf
                 else
                     echo "Invalid ENV"
