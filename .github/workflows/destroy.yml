@@ -37,20 +37,22 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
-     
-      - name: Terraform Initialize
+      - name: Setup correct backend config
         run: |
-                if [ "${{github.event.inputs.environment}}"=="dev" ]; then
-                    terraform init -backend-config=backend-dev.tf
-                elif [ "${{github.event.inputs.environment}}"=="prod" ]; then
-                    terraform init -backend-config=backend-prod.tf
-                else
-                    echo "Invalid ENV"
-                    exit 1
-                fi
+          if [ "${{ github.event.inputs.environment }}" == "dev" ]; then
+            cp backend-dev.tfbackend backend.tf
+          elif [ "${{ github.event.inputs.environment }}" == "prod" ]; then
+            cp backend-prod.tfbackend backend.tf
+          else
+            echo "Invalid environment: ${{ github.event.inputs.environment }}"
+            exit 1
+          fi
+
+      - name: Terraform Init
+        run: terraform init
 
       - name: Select Workspace
-        run: terraform workspace select ${{ github.event.inputs.environment }}
+        run: terraform workspace select "${{ github.event.inputs.environment }}"
 
       - name: Terraform Destroy
         run: terraform destroy -var-file="environments/${{ github.event.inputs.environment }}/terraform.tfvars" -auto-approve

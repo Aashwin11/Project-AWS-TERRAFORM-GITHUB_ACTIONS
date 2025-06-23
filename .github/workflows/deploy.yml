@@ -1,72 +1,70 @@
 name: Terraform Deployment Script
 
-#Event using Workflow Dispatch
 on:
-    workflow_dispatch: 
-        inputs:
-            environment:
-                description: "Select an environment to deploy to"
-                required: true
-                default: dev
-                type: choice
-                options:
-                    - dev
-                    - prod
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Select an environment to deploy to"
+        required: true
+        default: dev
+        type: choice
+        options:
+          - dev
+          - prod
 
-#Steps to execute
 jobs:
-    terraform-deployment:
-        name: Deploy to "${{github.event.inputs.environment}}"
-        runs-on: ubuntu-latest
+  terraform-deployment:
+    name: Deploy to "${{ github.event.inputs.environment }}"
+    runs-on: ubuntu-latest
 
-        environment: 
-            name: "${{github.event.inputs.environment}}"
+    environment:
+      name: "${{ github.event.inputs.environment }}"
 
-        #THis means all shell commands run from the root directory of github
-        defaults:
-            run:
-                working-directory: ./
+    defaults:
+      run:
+        working-directory: ./
 
-        steps:
-            - name: Checkout Repo
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
 
-            - name: Setup Terraform
-              uses: hashicorp/setup-terraform@v3
-              with:
-                terraform_version: 1.6.6
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
 
-            - name: COnfigure AWS CReds
-              uses: aws-actions/configure-aws-credentials@v3
-              with:
-                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                aws-region: us-east-1
+      - name: Configure AWS Creds
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
 
-            - name: Terraform Initialize
-              run: |
-                if [ "${{github.event.inputs.environment}}"=="dev" ]; then
-                    terraform init -backend-config=backend-dev.tf
-                elif [ "${{github.event.inputs.environment}}"=="prod" ]; then
-                    terraform init -backend-config=backend-prod.tf
-                else
-                    echo "Invalid ENV"
-                    exit 1
-                fi
-            - name: Terraform Choose Workspace
-              run: |
-                terraform workspace list | grep -q "${{ github.event.inputs.environment }}" \
-                && terraform workspace select "${{ github.event.inputs.environment }}" \
-                || terraform workspace new "${{ github.event.inputs.environment }}"
+      - name: Setup correct backend config
+        run: |
+          if [ "${{ github.event.inputs.environment }}" == "dev" ]; then
+            cp backend-dev.tfbackend backend.tf
+          elif [ "${{ github.event.inputs.environment }}" == "prod" ]; then
+            cp backend-prod.tfbackend backend.tf
+          else
+            echo "Invalid environment: ${{ github.event.inputs.environment }}"
+            exit 1
+          fi
 
-            - name: Terraform Plan stage
-              run: |
-                terraform plan -var-file="environments/${{github.event.inputs.environment}}/terraform.tfvars"
-            - name: Terraform Apply stage
-              run: |
-                terraform apply -auto-approve -var-file="environments/${{github.event.inputs.environment}}/terraform.tfvars"
-            - name: Terraform outputs
-              run: terraform output
+      - name: Terraform Init
+        run: terraform init
 
+      - name: Terraform Choose Workspace
+        run: |
+          terraform workspace list | grep -q "${{ github.event.inputs.environment }}" \
+          && terraform workspace select "${{ github.event.inputs.environment }}" \
+          || terraform workspace new "${{ github.event.inputs.environment }}"
 
-  
+      - name: Terraform Plan stage
+        run: terraform plan -var-file="environments/${{ github.event.inputs.environment }}/terraform.tfvars"
+
+      - name: Terraform Apply stage
+        run: terraform apply -auto-approve -var-file="environments/${{ github.event.inputs.environment }}/terraform.tfvars"
+
+      - name: Terraform Outputs
+        run: terraform output
