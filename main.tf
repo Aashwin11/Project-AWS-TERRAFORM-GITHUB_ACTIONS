@@ -92,3 +92,12 @@ module "alb" {
   alb-sg-id=module.alb-sg.alb-sg-id
   env-name = terraform.workspace
 }
+
+terraform {
+  backend "s3" {
+    bucket="bucket-terraform-github-actions-project"
+    key="envs/${terraform.workspace}/terraform.tfstate"
+    region=var.aws-region
+    dynamodb_table = "terrraform-lock"
+  }
+}
