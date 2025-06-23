@@ -1,0 +1,27 @@
+# Local Terraform state
+*.tfstate
+*.tfstate.backup
+.terraform/
+# Crash logs
+crash.log
+
+# Terraform CLI configuration file
+.terraformrc
+terraform.rc
+
+# Terraform working directory
+.terraform/
+
+# Variable override files (often used for local testing)
+*.tfvars
+*.tfvars.json
+
+# Sensitive files
+secret.tf
+private.tf
+*.pem
+*.key
+
+# IDE-specific (optional based on what you use)
+.vscode/
+.idea.terraform/
