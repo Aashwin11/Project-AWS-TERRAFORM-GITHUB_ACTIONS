@@ -27,3 +27,4 @@ private.tf
 # IDE-specific (optional based on what you use)
 .vscode/
 .idea.terraform/
+awscliv2.zip
