@@ -42,7 +42,7 @@ jobs:
 
       - name: Select Workspace
         run: |
-          terraform workspace select ${{ github.event.inputs.environment }} || terraform workspace new ${{ github.event.inputs.environment }}
+          terraform workspace select ${{ github.event.inputs.environment }} }}
 
       - name: Terraform Destroy
         run: terraform destroy -auto-approve -var-file="environments/${{ github.event.inputs.environment }}/terraform.tfvars"
