@@ -29,7 +29,9 @@ resource "aws_lb_target_group" "tg-main" {
 
 resource "aws_lb_target_group_attachment" "tga-main" {
 
-  for_each = toset(var.isntance-ids)
+  for_each = {
+    for idx, id in var.isntance-ids : "instance-${idx}" => id
+  }
 
   target_group_arn = aws_lb_target_group.tg-main.arn
   target_id        = each.value

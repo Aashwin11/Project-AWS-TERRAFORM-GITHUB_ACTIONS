@@ -12,7 +12,9 @@ resource "aws_route_table" "rt-main" {
 }
 
 resource "aws_route_table_association" "rta-main" {
-  for_each = toset(var.subnet-ids)
+  for_each = {
+    for idx, subnet_id in var.subnet-ids : "subnet-${idx}" => subnet_id
+  }
 
   subnet_id = each.value
   route_table_id = aws_route_table.rt-main.id
