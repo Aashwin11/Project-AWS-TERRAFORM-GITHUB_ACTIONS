@@ -97,7 +97,7 @@ terraform {
   backend "s3" {
     bucket="bucket-terraform-github-actions-project"
     key="envs/${terraform.workspace}/terraform.tfstate"
-    region=var.aws-region
+    region=us-east-1
     dynamodb_table = "terrraform-lock"
   }
 }
