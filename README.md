@@ -1,14 +1,21 @@
+
 # Project: AWS Terraform GitHub Actions  
 **Hosting a Static Website on DEV and PROD Environments via Modular Terraform & GitHub Actions**
 
 ---
 
-## 📖 Overview
+> **NOTE:**  
+> Please **fork this repository** for your own use.  
+> Make sure to **set up your AWS credentials** as GitHub Secrets to enable Infrastructure as Code (IaC) provisioning.  
+> **S3** and **DynamoDB** must be enabled and configured for the Terraform remote backend to function correctly.
+
+---
+
+## Overview
 
 This project demonstrates how to **provision, deploy, and manage a scalable static website on AWS** using **Terraform** (with a modular approach) and **GitHub Actions** for CI/CD.  
 It features **two isolated environments** (DEV and PROD), automated infrastructure deployment and teardown, and environment-specific protection using GitHub Environments.
 
-**NOTE: Please fork the Repository for use and make sure to SETUP THE AWS CREDENTIALS to use the IAC.**
 ---
 
 ## Architecture
@@ -94,6 +101,7 @@ Terraform supports only one backend configuration (`backend` block) per working 
 
 ```
 .
+├── .gitignore
 ├── environments/
 │   ├── dev/
 │   │   └── terraform.tfvars
@@ -124,6 +132,30 @@ Terraform supports only one backend configuration (`backend` block) per working 
 ├── destroy.yml       # GitHub Actions workflow for destroy
 └── README.md
 ```
+
+---
+
+## .gitignore
+
+A `.gitignore` file is included to **safeguard sensitive or unnecessary files** from being committed to the repository.  
+Typical entries might include:
+
+```
+# Local Terraform files
+*.tfstate
+*.tfstate.*
+.terraform/
+crash.log
+*.tfvars
+backend.tf
+
+# IDE files
+.vscode/
+.idea/
+.DS_Store
+```
+
+> This helps ensure that sensitive state files, backend configs, or local IDE settings are never pushed to the remote repository.
 
 ---
 
@@ -164,9 +196,12 @@ Terraform supports only one backend configuration (`backend` block) per working 
 - **Infrastructure as Code Best Practices:**  
   - Clear separation of code, config, and environment data.
 
+- **Version Control Hygiene:**  
+  - Sensitive and unnecessary files are excluded from version control using `.gitignore`.
+
 ---
 
-## Example Website Output
+## 📸 Example Website Output
 
 Each EC2 instance hosts a static HTML page that dynamically displays:
 - The **instance ID** (`$(hostname)`)
@@ -176,15 +211,18 @@ Each EC2 instance hosts a static HTML page that dynamically displays:
 ---
 
 ## Author
+
 **Aashwin11**
+
 ---
 
-## References
+##  References
 
 - [Terraform: Workspaces](https://developer.hashicorp.com/terraform/language/state/workspaces)
 - [Terraform: Backends](https://developer.hashicorp.com/terraform/language/settings/backends/configuration)
 - [GitHub Actions: Environments](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment)
 - [GitHub Actions: Workflow Syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
 
-
 ---
+
+Feel free to use, fork, and adapt this project for your own AWS and Terraform learning or deployments. If you have suggestions or need enhancements, please open an issue or PR!
