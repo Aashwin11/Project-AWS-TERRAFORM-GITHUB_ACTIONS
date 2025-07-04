@@ -141,21 +141,6 @@ Terraform supports only one backend configuration (`backend` block) per working 
 A `.gitignore` file is included to **safeguard sensitive or unnecessary files** from being committed to the repository.  
 Typical entries might include:
 
-```
-# Local Terraform files
-*.tfstate
-*.tfstate.*
-.terraform/
-crash.log
-*.tfvars
-backend.tf
-
-# IDE files
-.vscode/
-.idea/
-.DS_Store
-```
-
 > This helps ensure that sensitive state files, backend configs, or local IDE settings are never pushed to the remote repository.
 
 ---
@@ -202,12 +187,15 @@ backend.tf
 
 ---
 
-## 📸 Example Website Output
+## Example Website Output
 
 Each EC2 instance hosts a static HTML page that dynamically displays:
 - The **instance ID** (`$(hostname)`)
 - The **environment** (DEV or PROD)
 - Custom styling and effects
+
+> At the end of the Action Workflow Run, you will be given the ALB-DNS-URL that can be used to acess the website.
+> Refresh the website to see the Instance IDs change
 
 ---
 
