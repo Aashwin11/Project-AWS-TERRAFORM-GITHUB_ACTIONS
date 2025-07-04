@@ -8,6 +8,7 @@
 This project demonstrates how to **provision, deploy, and manage a scalable static website on AWS** using **Terraform** (with a modular approach) and **GitHub Actions** for CI/CD.  
 It features **two isolated environments** (DEV and PROD), automated infrastructure deployment and teardown, and environment-specific protection using GitHub Environments.
 
+**NOTE: Please fork the Repository for use and make sure to SETUP THE AWS CREDENTIALS to use the IAC.**
 ---
 
 ## Architecture
@@ -175,9 +176,7 @@ Each EC2 instance hosts a static HTML page that dynamically displays:
 ---
 
 ## Author
-
 **Aashwin11**
-
 ---
 
 ## References
