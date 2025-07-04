@@ -7,7 +7,8 @@
 > **NOTE:**  
 > Please **fork this repository** for your own use.  
 > Make sure to **set up your AWS credentials** as GitHub Secrets to enable Infrastructure as Code (IaC) provisioning.  
-> **S3** and **DynamoDB** must be enabled and configured for the Terraform remote backend to function correctly.
+> **S3** and **DynamoDB** must be enabled and configured for the Terraform remote backend to function correctly.Certainly! Here’s the text you can add to your note:
+> **For naming conventions in Terraform scripts, the kebab-case style (e.g., `alb-main`) is used. This improves readability and consistency across resources and modules.**
 
 ---
 
