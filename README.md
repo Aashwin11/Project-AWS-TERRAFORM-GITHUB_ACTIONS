@@ -19,6 +19,14 @@ It features **two isolated environments** (DEV and PROD), automated infrastructu
 
 ---
 
+## Live Demo
+
+[Check out the live demo on LinkedIn!](https://www.linkedin.com/posts/aniketritam_devops-aws-terraform-activity-7342968550690574338-V2kL?utm_source=share&utm_medium=member_desktop&rcm=ACoAADI1cyABMlEQBnlTqB2eMSp3iOXzJT7yWFk)
+
+---
+
+You can place this section wherever appropriate in your README, such as after the **Overview** or at the end for easy reference.
+---
 ## Architecture
 
 - **AWS Resources:**  
